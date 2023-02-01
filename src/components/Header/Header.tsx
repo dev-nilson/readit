@@ -1,6 +1,18 @@
 import Image from "next/image";
 import logo from "@/assets/logo.png";
-import { HomeIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
+import {
+  HomeIcon,
+  ChevronDownIcon,
+  MagnifyingGlassIcon,
+  Bars3Icon,
+} from "@heroicons/react/24/solid";
+import {
+  HeartIcon,
+  UserIcon,
+  BriefcaseIcon,
+  CurrencyDollarIcon,
+  ArrowRightOnRectangleIcon,
+} from "@heroicons/react/24/outline";
 
 function Header() {
   return (
@@ -18,6 +30,30 @@ function Header() {
         <HomeIcon className="h-5 w-5" />
         <p className="flex-1 ml-2 hidden md:inline">Home</p>
         <ChevronDownIcon className="h-5 w-5" />
+      </div>
+
+      <form className="flex flex-1 items-center space-x-2 rounded-sm border border-gray-200 bg-gray-100 px-3 py-1">
+        <MagnifyingGlassIcon className="h-6 w-6 text-gray-400" />
+        <input
+          className="flex-1 bg-transparent outline-none"
+          placeholder="Search"
+        />
+        <button type="submit" hidden />
+      </form>
+
+      <div className="items-center text-gray-500 space-x-2 hidden lg:inline-flex ml-5">
+        <HeartIcon className="icon" />
+        <UserIcon className="icon" />
+        <BriefcaseIcon className="icon" />
+        <CurrencyDollarIcon className="icon" />
+      </div>
+      <div className="ml-5 flex items-center lg:hidden">
+        <Bars3Icon className="icon" />
+      </div>
+
+      <div className="hidden text-gray-500 lg:flex items-center space-x-2 border-gray-100 cursor-pointer">
+        <ArrowRightOnRectangleIcon className="icon" />
+        <p>Sign In</p>
       </div>
     </div>
   );
