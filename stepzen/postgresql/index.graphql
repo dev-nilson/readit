@@ -1,0 +1,366 @@
+type comments {
+  username: String
+  text: String
+  posts: posts @materializer(query: "getPostsUsingComments_post_id_fkey")
+  post_id: ID
+  id: ID!
+  created_at: DateTime
+}
+
+type posts {
+  votes: [votes] @materializer(query: "getVotes")
+  username: String
+  title: String
+  text: String
+  subposts: subposts @materializer(query: "getSubposts")
+  subpost_id: ID
+  id: ID!
+  created_at: DateTime
+  comments: [comments] @materializer(query: "getComments")
+}
+
+type subposts {
+  topic: String
+  posts: [posts] @materializer(query: "getPostsUsingPosts_subpost_id_fkey")
+  id: ID!
+  created_at: DateTime
+}
+
+type votes {
+  username: String
+  upvote: Boolean
+  posts: posts @materializer(query: "getPosts")
+  post_id: ID
+  id: ID!
+  created_at: DateTime
+}
+
+"""
+The following queries are just a set of examples of how to access your schema.
+Feel free to modify them or aggregate more.
+"""
+type Query {
+  " Queries for type 'comments' "
+  comments(id: ID!): comments
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "comments"
+      configuration: "postgresql_config"
+    )
+  commentsList: [comments]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "comments"
+      configuration: "postgresql_config"
+    )
+  commentsPaginatedList(first: Int, after: Int): [comments]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "created_at", "id", "post_id", "text", "username" FROM "comments" ORDER BY "id" LIMIT $1 OFFSET $2
+      """
+      configuration: "postgresql_config"
+    )
+  getComments(id: ID!): [comments]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "created_at", "id", "post_id", "text", "username" FROM "comments" WHERE "post_id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  " Queries for type 'posts' "
+  getPosts(post_id: ID!): posts
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "created_at", "id", "subpost_id", "text", "title", "username" FROM "posts" WHERE "id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  getPostsUsingComments_post_id_fkey(post_id: ID!): posts
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "created_at", "id", "subpost_id", "text", "title", "username" FROM "posts" WHERE "id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  getPostsUsingPosts_subpost_id_fkey(id: ID!): [posts]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "created_at", "id", "subpost_id", "text", "title", "username" FROM "posts" WHERE "subpost_id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  posts(id: ID!): posts
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "posts"
+      configuration: "postgresql_config"
+    )
+  postsList: [posts]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "posts"
+      configuration: "postgresql_config"
+    )
+  postsPaginatedList(first: Int, after: Int): [posts]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "created_at", "id", "subpost_id", "text", "title", "username" FROM "posts" ORDER BY "id" LIMIT $1 OFFSET $2
+      """
+      configuration: "postgresql_config"
+    )
+  " Queries for type 'subposts' "
+  getSubposts(subpost_id: ID!): subposts
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "created_at", "id", "topic" FROM "subposts" WHERE "id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  subposts(id: ID!): subposts
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "subposts"
+      configuration: "postgresql_config"
+    )
+  subpostsList: [subposts]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "subposts"
+      configuration: "postgresql_config"
+    )
+  subpostsPaginatedList(first: Int, after: Int): [subposts]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "created_at", "id", "topic" FROM "subposts" ORDER BY "id" LIMIT $1 OFFSET $2
+      """
+      configuration: "postgresql_config"
+    )
+  " Queries for type 'votes' "
+  getVotes(id: ID!): [votes]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "created_at", "id", "post_id", "upvote", "username" FROM "votes" WHERE "post_id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  votes(id: ID!): votes
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "votes"
+      configuration: "postgresql_config"
+    )
+  votesList: [votes]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "votes"
+      configuration: "postgresql_config"
+    )
+  votesPaginatedList(first: Int, after: Int): [votes]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "created_at", "id", "post_id", "upvote", "username" FROM "votes" ORDER BY "id" LIMIT $1 OFFSET $2
+      """
+      configuration: "postgresql_config"
+    )
+}
+
+"""
+The following mutations are just a set of examples of how to access your schema.
+Feel free to modify them or aggregate more.
+"""
+type Mutation {
+  " Mutations for type 'comments' "
+  deleteComments(id: ID!): comments
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "comments"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+  insertComments(
+    username: String
+    post_id: ID
+    text: String
+    created_at: DateTime
+  ): comments
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "comments"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  updateComments(
+    id: ID!
+    created_at: DateTime
+    post_id: ID
+    text: String
+    username: String
+  ): comments
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      UPDATE "comments" SET
+        "created_at" = COALESCE($2, "created_at"),
+        "post_id" = COALESCE($3, "post_id"),
+        "text" = COALESCE($4, "text"),
+        "username" = COALESCE($5, "username")
+      WHERE
+        "id" = $1
+      RETURNING *
+      """
+      configuration: "postgresql_config"
+    )
+  " Mutations for type 'posts' "
+  deletePosts(id: ID!): posts
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "posts"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+  insertPosts(
+    subpost_id: ID
+    username: String
+    text: String
+    created_at: DateTime
+    title: String
+  ): posts
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "posts"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  updatePosts(
+    id: ID!
+    created_at: DateTime
+    subpost_id: ID
+    text: String
+    title: String
+    username: String
+  ): posts
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      UPDATE "posts" SET
+        "created_at" = COALESCE($2, "created_at"),
+        "subpost_id" = COALESCE($3, "subpost_id"),
+        "text" = COALESCE($4, "text"),
+        "title" = COALESCE($5, "title"),
+        "username" = COALESCE($6, "username")
+      WHERE
+        "id" = $1
+      RETURNING *
+      """
+      configuration: "postgresql_config"
+    )
+  " Mutations for type 'subposts' "
+  deleteSubposts(id: ID!): subposts
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "subposts"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+  insertSubposts(topic: String, created_at: DateTime): subposts
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "subposts"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  updateSubposts(id: ID!, created_at: DateTime, topic: String): subposts
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      UPDATE "subposts" SET
+        "created_at" = COALESCE($2, "created_at"),
+        "topic" = COALESCE($3, "topic")
+      WHERE
+        "id" = $1
+      RETURNING *
+      """
+      configuration: "postgresql_config"
+    )
+  " Mutations for type 'votes' "
+  deleteVotes(id: ID!): votes
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "votes"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+  insertVotes(
+    username: String
+    post_id: ID
+    created_at: DateTime
+    upvote: Boolean
+  ): votes
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "votes"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  updateVotes(
+    id: ID!
+    created_at: DateTime
+    post_id: ID
+    upvote: Boolean
+    username: String
+  ): votes
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      UPDATE "votes" SET
+        "created_at" = COALESCE($2, "created_at"),
+        "post_id" = COALESCE($3, "post_id"),
+        "upvote" = COALESCE($4, "upvote"),
+        "username" = COALESCE($5, "username")
+      WHERE
+        "id" = $1
+      RETURNING *
+      """
+      configuration: "postgresql_config"
+    )
+}
