@@ -31,6 +31,9 @@ function PostBox() {
           type="text"
           placeholder="Post a piece of advice"
         />
+        <span>
+          {watch("advice").length} / 280
+        </span>
       </div>
 
       {!!watch("advice") && (
