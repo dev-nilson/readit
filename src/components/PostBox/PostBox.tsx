@@ -26,14 +26,17 @@ function PostBox() {
       <div className="flex items-center space-x-3 m-1">
         <Avatar seed="" />
         <input
-          {...register("advice", { required: true })}
+          {...register("advice", {
+            required: true,
+            validate: (value) => {
+              return !!value.trim();
+            },
+          })}
           className="bg-gray-50 p-2 pl-5 outline-none rounded-md flex-1"
           type="text"
           placeholder="Post a piece of advice"
         />
-        <span>
-          {watch("advice").length} / 280
-        </span>
+        <span>{watch("advice").length} / 280</span>
       </div>
 
       {!!watch("advice") && (
@@ -55,6 +58,9 @@ function PostBox() {
 
           {Object.keys(errors).length > 0 && (
             <div className="text-sm px-2 text-red-500">
+              {errors.advice?.type === "validate" && (
+                <p>Advice should be valid</p>
+              )}
               {errors.category?.type === "required" && (
                 <p>Category is required</p>
               )}
