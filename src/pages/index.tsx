@@ -13,10 +13,12 @@ export default function Home() {
         <meta name="readit" content="advice for life" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <main>
+      <div className="h-screen bg-blue-50">
         <Header />
-        <PostBox />
-      </main>
+        <main className="max-w-5xl m-7 mx-auto">
+          <PostBox />
+        </main>
+      </div>
     </>
   );
 }
