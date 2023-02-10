@@ -52,7 +52,6 @@ function PostBox() {
 
           {Object.keys(errors).length > 0 && (
             <div className="text-sm px-2 text-red-500">
-              {errors.advice?.type === "required" && <p>Advice is required</p>}
               {errors.category?.type === "required" && (
                 <p>Category is required</p>
               )}
