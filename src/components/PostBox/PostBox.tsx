@@ -14,9 +14,16 @@ function PostBox() {
     formState: { errors },
   } = useForm<Post>();
 
+  const onSubmit = handleSubmit(async (data) => {
+    console.log(data);
+  });
+
   return (
-    <form className="sticky top-15 z-50 bg-white border border-y-gray-300 p-2">
-      <div className="flex items-center space-x-3">
+    <form
+      className="sticky top-15 z-50 bg-white border border-y-gray-300 p-2 rounded-md"
+      onSubmit={onSubmit}
+    >
+      <div className="flex items-center space-x-3 m-1">
         <Avatar seed="" />
         <input
           {...register("advice", { required: true })}
@@ -27,7 +34,7 @@ function PostBox() {
       </div>
 
       {!!watch("advice") && (
-        <div>
+        <div className="space-y-1">
           <div className="flex items-center px-2">
             <p className="min-w-[90px]">Category</p>
             <input
@@ -39,7 +46,7 @@ function PostBox() {
           </div>
 
           {Object.keys(errors).length > 0 && (
-            <div className="space-y- p-2 tex-re">
+            <div className="text-sm p-2 text-red-500">
               {errors.advice?.type === "required" && <p>Advice is required</p>}
               {errors.category?.type === "required" && (
                 <p>Category is required</p>
@@ -48,7 +55,10 @@ function PostBox() {
           )}
 
           {!!watch("advice") && (
-            <button type="submit" className="w-full rounded-full bg-blue-400 p-2  text-white">
+            <button
+              type="submit"
+              className="w-full rounded-full bg-blue-400 p-2  text-white"
+            >
               Post Advice
             </button>
           )}
