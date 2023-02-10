@@ -37,6 +37,21 @@ function PostBox() {
               placeholder="Select a category"
             />
           </div>
+
+          {Object.keys(errors).length > 0 && (
+            <div className="space-y- p-2 tex-re">
+              {errors.advice?.type === "required" && <p>Advice is required</p>}
+              {errors.category?.type === "required" && (
+                <p>Category is required</p>
+              )}
+            </div>
+          )}
+
+          {!!watch("advice") && (
+            <button type="submit" className="w-full rounded-full bg-blue-400 p-2  text-white">
+              Post Advice
+            </button>
+          )}
         </div>
       )}
     </form>
