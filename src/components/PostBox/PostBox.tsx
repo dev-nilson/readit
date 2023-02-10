@@ -34,27 +34,35 @@ function PostBox() {
       </div>
 
       {!!watch("advice") && (
-        <div className="space-y-1">
+        <div className="space-y-2">
           <div className="flex items-center px-2">
             <p className="min-w-[90px]">Category</p>
             <input
               className="m-2 flex-1 bg-blue-50 p-2 outline-none"
-              {...register("category", { required: true })}
+              {...register("category", {
+                required: true,
+                validate: (value) => {
+                  return !!value.trim();
+                },
+              })}
               type="text"
               placeholder="Select a category"
             />
           </div>
 
           {Object.keys(errors).length > 0 && (
-            <div className="text-sm p-2 text-red-500">
+            <div className="text-sm px-2 text-red-500">
               {errors.advice?.type === "required" && <p>Advice is required</p>}
               {errors.category?.type === "required" && (
                 <p>Category is required</p>
               )}
+              {errors.category?.type === "validate" && (
+                <p>Category should be valid</p>
+              )}
             </div>
           )}
 
-          {!!watch("advice") && (
+          {watch("advice") && (
             <button
               type="submit"
               className="w-full rounded-full bg-blue-400 p-2  text-white"
