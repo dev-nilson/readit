@@ -37,14 +37,16 @@ function PostBox() {
           placeholder="Post a piece of advice"
         />
         <span className="text-gray-500">
-          <span 
+          <span
             className={
-              watch("advice")?.length > 200 ? "text-red-500" : "text-green-500"
+              watch("advice")?.length > 260
+                ? "text-red-500"
+                : "text-green-500"
             }
           >
             {watch("advice")?.length}
-          </span>{" "}
-          / 280
+          </span>
+          {" "} / 280
         </span>
       </div>
 
