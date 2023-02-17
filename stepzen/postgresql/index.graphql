@@ -250,12 +250,10 @@ type Mutation {
       dml: DELETE
       configuration: "postgresql_config"
     )
-  insertPosts(
+  insertPost(
     subpost_id: ID
     username: String
     text: String
-    created_at: DateTime
-    title: String
   ): posts
     @dbquery(
       type: "postgresql"
