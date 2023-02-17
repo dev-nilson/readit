@@ -17,3 +17,17 @@ export const ADD_POST = gql`
     }
   }
 `
+
+export const ADD_SUBPOST = gql`
+  mutation MyMutation(
+    $topic: String!
+  ) {
+    insertSubpost(
+      topic: $topic
+    ) {
+      id
+      topic
+      created_at
+    }
+  }
+`
