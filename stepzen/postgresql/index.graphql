@@ -134,6 +134,15 @@ type Query {
       """
       configuration: "postgresql_config"
     )
+  getSubpostsByTopic(topic: String!): [subposts]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT * FROM "subposts" WHERE "topic" = $1
+      """
+      configuration: "postgresql_config"
+    )
   subposts(id: ID!): subposts
     @dbquery(
       type: "postgresql"
@@ -250,11 +259,7 @@ type Mutation {
       dml: DELETE
       configuration: "postgresql_config"
     )
-  insertPost(
-    subpost_id: ID
-    username: String
-    text: String
-  ): posts
+  insertPost(subpost_id: ID, username: String, text: String): posts
     @dbquery(
       type: "postgresql"
       schema: "public"
@@ -293,6 +298,14 @@ type Mutation {
       schema: "public"
       table: "subposts"
       dml: DELETE
+      configuration: "postgresql_config"
+    )
+  insertSubpost(topic: String!): subposts
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "subposts"
+      dml: INSERT
       configuration: "postgresql_config"
     )
   insertSubposts(topic: String, created_at: DateTime): subposts
