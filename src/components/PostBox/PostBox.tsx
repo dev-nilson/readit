@@ -1,4 +1,8 @@
+import client from "apollo-client";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@apollo/client";
+import { ADD_POST, ADD_SUBPOST } from "@/graphql/mutations";
+import { GET_SUBPOST_BY_TOPIC } from "@/graphql/queries";
 import Avatar from "../Avatar/Avatar";
 
 type Post = {
@@ -7,6 +11,8 @@ type Post = {
 };
 
 function PostBox() {
+  const [addPost] = useMutation(ADD_POST);
+  const [addSubpost] = useMutation(ADD_SUBPOST);
   const {
     register,
     handleSubmit,
@@ -15,7 +21,37 @@ function PostBox() {
   } = useForm<Post>();
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
+    try {
+      const response = await client.query({
+        query: GET_SUBPOST_BY_TOPIC,
+        variables: {
+          topic: data.category,
+        },
+      });
+
+      const subpostExists = response.data.getSubpostsByTopic.length > 0;
+      
+      if (!subpostExists) {
+        const newSubpost = await addSubpost({
+          variables: {
+            topic: data.category,
+          },
+        })
+
+        const newPost = await addPost({
+          variables: {
+            text: data.advice,
+            username: "Denilson",
+            subpost_id: newSubpost.data.insertSubpost.id
+          }
+        })
+      }
+      else {
+
+      }
+    } catch (error) {
+      console.log("ERROR: ", error)
+    }
   });
 
   return (
@@ -39,14 +75,12 @@ function PostBox() {
         <span className="text-gray-500">
           <span
             className={
-              watch("advice")?.length > 260
-                ? "text-red-500"
-                : "text-green-500"
+              watch("advice")?.length > 260 ? "text-red-500" : "text-green-500"
             }
           >
             {watch("advice")?.length}
-          </span>
-          {" "} / 280
+          </span>{" "}
+          / 280
         </span>
       </div>
 
