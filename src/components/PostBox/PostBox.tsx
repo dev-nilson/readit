@@ -30,27 +30,32 @@ function PostBox() {
       });
 
       const subpostExists = response.data.getSubpostsByTopic.length > 0;
-      
+
       if (!subpostExists) {
         const newSubpost = await addSubpost({
           variables: {
             topic: data.category,
           },
-        })
+        });
 
         const newPost = await addPost({
           variables: {
             text: data.advice,
             username: "Denilson",
-            subpost_id: newSubpost.data.insertSubpost.id
-          }
-        })
-      }
-      else {
-
+            subpost_id: newSubpost.data.insertSubpost.id,
+          },
+        });
+      } else {
+        const newPost = await addPost({
+          variables: {
+            text: data.advice,
+            username: "Denilson",
+            subpost_id: response.data.getSubpostsByTopic[0].id,
+          },
+        });
       }
     } catch (error) {
-      console.log("ERROR: ", error)
+      console.log("ERROR: ", error);
     }
   });
 
