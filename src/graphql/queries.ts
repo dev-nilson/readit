@@ -8,4 +8,4 @@ export const GET_SUBPOST_BY_TOPIC = gql`
       created_at
     }
   }
-`
+`;

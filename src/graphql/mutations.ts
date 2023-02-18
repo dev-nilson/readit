@@ -6,7 +6,7 @@ export const ADD_POST = gql`
     $text: String!
     $subpost_id: ID!
   ) {
-    inserPost(
+    insertPost(
       subpost_id: $subpost_id
       username: $username
       text: $text
