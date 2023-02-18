@@ -15,6 +15,7 @@ function PostBox() {
   const [addSubpost] = useMutation(ADD_SUBPOST);
   const {
     register,
+    setValue,
     handleSubmit,
     watch,
     formState: { errors },
@@ -54,6 +55,9 @@ function PostBox() {
           },
         });
       }
+
+      setValue("advice", "");
+      setValue("category", "");
     } catch (error) {
       console.log("ERROR: ", error);
     }
