@@ -1,4 +1,5 @@
 import client from "apollo-client";
+import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import { ADD_POST, ADD_SUBPOST } from "@/graphql/mutations";
@@ -22,6 +23,8 @@ function PostBox() {
   } = useForm<Post>();
 
   const onSubmit = handleSubmit(async (data) => {
+    const notification = toast.loading("Creating post");
+
     try {
       const response = await client.query({
         query: GET_SUBPOST_BY_TOPIC,
@@ -58,8 +61,13 @@ function PostBox() {
 
       setValue("advice", "");
       setValue("category", "");
+      toast.success("New post created", {
+        id: notification,
+      });
     } catch (error) {
-      console.log("ERROR: ", error);
+      toast.error("Something went wrong", {
+        id: notification,
+      });
     }
   });
 
