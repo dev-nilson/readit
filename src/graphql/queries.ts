@@ -18,6 +18,25 @@ export const GET_POSTS = gql`
       username
       subpost_id
       created_at
+      comments {
+        created_at
+        id
+        post_id
+        text
+        username
+      }
+      subposts {
+        created_at
+        id
+        topic
+      }
+      votes {
+        created_at
+        id
+        post_id
+        upvote
+        username
+      }
     }
   }
 `;
