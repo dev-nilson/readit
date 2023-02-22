@@ -12,7 +12,7 @@ type posts {
   username: String
   title: String
   text: String
-  subposts: subposts @materializer(query: "getSubposts")
+  subposts: [subposts] @materializer(query: "getSubposts")
   subpost_id: ID
   id: ID!
   created_at: DateTime
@@ -21,7 +21,6 @@ type posts {
 
 type subposts {
   topic: String
-  posts: [posts] @materializer(query: "getPostsUsingPosts_subpost_id_fkey")
   id: ID!
   created_at: DateTime
 }
@@ -125,7 +124,7 @@ type Query {
       configuration: "postgresql_config"
     )
   " Queries for type 'subposts' "
-  getSubposts(subpost_id: ID!): subposts
+  getSubposts(subpost_id: ID!): [subposts]
     @dbquery(
       type: "postgresql"
       schema: "public"
@@ -173,6 +172,7 @@ type Query {
       schema: "public"
       query: """
       SELECT "created_at", "id", "post_id", "upvote", "username" FROM "votes" WHERE "post_id" = $1
+      ORDER BY "created_at" DESC
       """
       configuration: "postgresql_config"
     )
