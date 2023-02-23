@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import { ADD_POST, ADD_SUBPOST } from "@/graphql/mutations";
-import { GET_SUBPOST_BY_TOPIC } from "@/graphql/queries";
+import { GET_POSTS, GET_SUBPOST_BY_TOPIC } from "@/graphql/queries";
 import Avatar from "../Avatar/Avatar";
 
 type Post = {
@@ -12,7 +12,9 @@ type Post = {
 };
 
 function PostBox() {
-  const [addPost] = useMutation(ADD_POST);
+  const [addPost] = useMutation(ADD_POST, {
+    refetchQueries: [GET_POSTS, "postsList"],
+  });
   const [addSubpost] = useMutation(ADD_SUBPOST);
   const {
     register,
@@ -21,6 +23,7 @@ function PostBox() {
     watch,
     formState: { errors },
   } = useForm<Post>();
+
 
   const onSubmit = handleSubmit(async (data) => {
     const notification = toast.loading("Creating post");
