@@ -14,7 +14,7 @@ export default function Home() {
         <meta name="readit" content="advice for life" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <div className="bg-blue-50">
+      <div className="bg-slate-200">
         <Header />
         <main className="max-w-5xl mt-10 pb-5 mx-auto">
           <PostBox />
