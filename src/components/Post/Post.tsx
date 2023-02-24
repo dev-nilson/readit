@@ -1,5 +1,6 @@
 import TimeAgo from "react-timeago";
 import Link from "next/link";
+import { Orbit } from "@uiball/loaders";
 import { ArrowUpIcon, ArrowDownIcon } from "@heroicons/react/24/solid";
 import {
   ChatBubbleLeftIcon,
@@ -13,8 +14,16 @@ type PostProps = {
 };
 
 function Post({ post }: PostProps) {
+  if (!post) {
+    return (
+      <div className="flex w-full items-center justify-center p-10 text-xl">
+        <Orbit size={40} color="#ff4301" />
+      </div>
+    );
+  }
+
   return (
-    <Link href={`/`}>
+    <Link href={`/post/${post.id}`}>
       <div className="flex rounded-md border border-gray-300 bg-white hover:border-gray-500 w-full my-4">
         <div className="flex flex-col items-center justify-start space-y-1 rounded-l-md bg-gray-50 p-4 text-gray-400">
           <ArrowUpIcon className="vote-button hover:text-red-500" />
