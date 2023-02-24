@@ -1,20 +1,20 @@
 import Image from "next/image";
+import Link from "next/link";
 import logo from "@/assets/logo.png";
-import {
-  HomeIcon,
-  MagnifyingGlassIcon,
-} from "@heroicons/react/24/solid";
+import { HomeIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
 function Header() {
   return (
     <div className="sticky top-0 z-50 flex bg-white px-4 py-2 shadow-sm space-x-10">
       <div className="relative h-10 w-20 flex-shrink-0 cursor-pointer">
-        <Image
-          src={logo}
-          alt="logo"
-          fill={true}
-          style={{ objectFit: "contain" }}
-        />
+        <Link href="/">
+          <Image
+            src={logo}
+            alt="logo"
+            fill={true}
+            style={{ objectFit: "contain" }}
+          />
+        </Link>
       </div>
 
       <div className="flex items-center mx-7 xl:min-w-[300px]">

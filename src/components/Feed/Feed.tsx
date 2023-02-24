@@ -16,7 +16,6 @@ function Feed({ topic }: FeedProps) {
       });
 
   const posts: Post[] = !topic ? data?.postsList : data?.postsListByTopic;
-  console.log(data);
 
   return (
     <div className="w-full mt-5 space-y-5">
