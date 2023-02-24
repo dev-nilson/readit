@@ -14,7 +14,7 @@ function PostPage() {
   const post: Post = data?.getPosts;
 
   return (
-    <div>
+    <div className="mx-auto max-w-5xl">
       <Post post={post} />
     </div>
   );
