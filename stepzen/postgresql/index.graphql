@@ -234,7 +234,6 @@ type Mutation {
     username: String
     post_id: ID
     text: String
-    created_at: DateTime
   ): comments
     @dbquery(
       type: "postgresql"
