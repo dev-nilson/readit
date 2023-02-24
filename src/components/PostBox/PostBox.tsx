@@ -76,7 +76,7 @@ function PostBox() {
 
   return (
     <form
-      className="sticky top-15 z-50 bg-white border border-y-gray-300 p-2 rounded-md"
+      className="sticky top-14 z-10 bg-white border border-y-gray-300 p-2 rounded-md"
       onSubmit={onSubmit}
     >
       <div className="flex items-center space-x-3 m-1">
