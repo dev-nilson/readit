@@ -30,7 +30,7 @@ function Subpost() {
 
         <div className="mx-auto max-w-5xl mt-20">
           <PostBox subpost={subpost} />
-          <Feed />
+          <Feed topic={subpost} />
         </div>
       </div>
     </>
