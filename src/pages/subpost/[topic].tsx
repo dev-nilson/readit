@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 
 function Subpost() {
   const { query } = useRouter();
+  const subpost = query.topic?.toString();
 
   return (
     <>
@@ -18,9 +19,7 @@ function Subpost() {
                 <Avatar large />
               </div>
               <div className="py-2">
-                <h1 className="text-2xl font-bold">
-                  Advice for {query.topic?.toString()}
-                </h1>
+                <h1 className="text-2xl font-bold">Advice for {subpost}</h1>
                 <p className="text-sm text-gray-400">
                   Made with 💙 by Denilson
                 </p>
@@ -30,7 +29,7 @@ function Subpost() {
         </div>
 
         <div className="mx-auto max-w-5xl mt-20">
-          <PostBox />
+          <PostBox subpost={subpost} />
           <Feed />
         </div>
       </div>

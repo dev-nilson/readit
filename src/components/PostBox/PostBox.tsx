@@ -11,7 +11,11 @@ type Post = {
   category: string;
 };
 
-function PostBox() {
+type PostBoxProps = {
+  subpost?: string;
+};
+
+function PostBox({ subpost }: PostBoxProps) {
   const [addPost] = useMutation(ADD_POST, {
     refetchQueries: [GET_POSTS, "postsList"],
   });
@@ -24,7 +28,6 @@ function PostBox() {
     formState: { errors },
   } = useForm<Post>();
 
-
   const onSubmit = handleSubmit(async (data) => {
     const notification = toast.loading("Creating post");
 
@@ -32,7 +35,7 @@ function PostBox() {
       const response = await client.query({
         query: GET_SUBPOST_BY_TOPIC,
         variables: {
-          topic: data.category,
+          topic: subpost || data.category,
         },
       });
 
@@ -41,7 +44,7 @@ function PostBox() {
       if (!subpostExists) {
         const newSubpost = await addSubpost({
           variables: {
-            topic: data.category,
+            topic: subpost || data.category,
           },
         });
 
@@ -90,7 +93,11 @@ function PostBox() {
           })}
           className="bg-gray-50 p-2 pl-5 outline-none rounded-md flex-1"
           type="text"
-          placeholder="Post a piece of advice"
+          placeholder={
+            subpost
+              ? `Post a piece of advice for ${subpost}`
+              : "Post a piece of advice"
+          }
         />
         <span className="text-gray-500">
           <span
@@ -104,7 +111,7 @@ function PostBox() {
         </span>
       </div>
 
-      {!!watch("advice") && (
+      {!!watch("advice") && !subpost && (
         <div className="space-y-2">
           <div className="flex items-center px-2">
             <p className="min-w-[90px]">Category</p>
