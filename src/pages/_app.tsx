@@ -8,7 +8,7 @@ import Header from "@/components/Header/Header";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
-      <div className="bg-slate-200">
+      <div className="bg-slate-200 h-screen overflow-y-scroll">
         <Toaster />
         <Header />
         <Component {...pageProps} />
