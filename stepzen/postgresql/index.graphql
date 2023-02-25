@@ -356,7 +356,6 @@ type Mutation {
   insertVotes(
     username: String
     post_id: ID
-    created_at: DateTime
     upvote: Boolean
   ): votes
     @dbquery(
