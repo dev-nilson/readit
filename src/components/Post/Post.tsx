@@ -1,3 +1,4 @@
+import { useState } from "react";
 import TimeAgo from "react-timeago";
 import Link from "next/link";
 import { Orbit } from "@uiball/loaders";
@@ -7,6 +8,9 @@ import {
   ShareIcon,
   BookmarkIcon,
 } from "@heroicons/react/24/outline";
+import { useMutation, useQuery } from "@apollo/client";
+import { GET_VOTES_BY_POST_ID } from "@/graphql/queries";
+import { ADD_VOTE } from "@/graphql/mutations";
 import Avatar from "../Avatar/Avatar";
 
 type PostProps = {
@@ -14,6 +18,18 @@ type PostProps = {
 };
 
 function Post({ post }: PostProps) {
+  const [vote, setVote] = useState<boolean>();
+  const { data, loading } = useQuery(GET_VOTES_BY_POST_ID, {
+    variables: {
+      post_id: post?.id,
+    },
+  });
+  const addVote = useMutation(ADD_VOTE, {
+    refetchQueries: [GET_VOTES_BY_POST_ID, "getVotesByPostId"],
+  });
+
+  const upvote = async (isUpvote: boolean) => {};
+
   if (!post) {
     return (
       <div className="flex w-full items-center justify-center p-10 text-xl">
@@ -26,9 +42,15 @@ function Post({ post }: PostProps) {
     <Link href={`/post/${post.id}`}>
       <div className="flex rounded-md border border-gray-300 bg-white hover:border-gray-500 w-full my-4">
         <div className="flex flex-col items-center justify-start space-y-1 rounded-l-md bg-gray-50 p-4 text-gray-400">
-          <ArrowUpIcon className="vote-button hover:text-red-500" />
+          <ArrowUpIcon
+            className="vote-button hover:text-red-500"
+            onClick={() => upvote(true)}
+          />
           <p className="text-black font-bold text-xs">0</p>
-          <ArrowDownIcon className="vote-button hover:text-blue-500" />
+          <ArrowDownIcon
+            className="vote-button hover:text-blue-500"
+            onClick={() => upvote(false)}
+          />
         </div>
         <div className="p-3 pb-1">
           <div className="flex items-center space-x-2">
