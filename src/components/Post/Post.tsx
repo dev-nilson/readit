@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TimeAgo from "react-timeago";
 import Link from "next/link";
 import { Orbit } from "@uiball/loaders";
@@ -21,14 +21,19 @@ function Post({ post }: PostProps) {
   const [vote, setVote] = useState<boolean>();
   const { data, loading } = useQuery(GET_VOTES_BY_POST_ID, {
     variables: {
-      post_id: post?.id,
+      id: post?.id,
     },
   });
   const addVote = useMutation(ADD_VOTE, {
-    refetchQueries: [GET_VOTES_BY_POST_ID, "getVotesByPostId"],
+    refetchQueries: [GET_VOTES_BY_POST_ID, "getVotes"],
   });
 
+  
   const upvote = async (isUpvote: boolean) => {};
+  
+  useEffect(() => {
+    const votes: Vote[] = data?.getVotes;
+  }, [data]);
 
   if (!post) {
     return (
