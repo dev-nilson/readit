@@ -53,7 +53,7 @@ function Post({ post }: PostProps) {
     return displayNumber;
   };
 
-  console.log(data)
+  console.log(data);
 
   if (!post) {
     return (
@@ -64,19 +64,19 @@ function Post({ post }: PostProps) {
   }
 
   return (
-    <Link href={`/post/${post.id}`}>
-      <div className="flex rounded-md border border-gray-300 bg-white hover:border-gray-500 w-full my-4">
-        <div className="flex flex-col items-center justify-start space-y-1 rounded-l-md bg-gray-50 p-4 text-gray-400">
-          <ArrowUpIcon
-            className="vote-button hover:text-blue-500"
-            onClick={() => upvote(true)}
-          />
-          <p className="text-black font-bold text-sm">{displayVotes()}</p>
-          <ArrowDownIcon
-            className="vote-button hover:text-red-500"
-            onClick={() => upvote(false)}
-          />
-        </div>
+    <div className="flex rounded-md border border-gray-300 bg-white hover:border-gray-500 w-full my-4">
+      <div className="flex flex-col items-center justify-start space-y-1 rounded-l-md bg-gray-50 p-4 text-gray-400">
+        <ArrowUpIcon
+          className="vote-button hover:text-blue-500"
+          onClick={() => upvote(true)}
+        />
+        <p className="text-black font-bold text-sm">{displayVotes()}</p>
+        <ArrowDownIcon
+          className="vote-button hover:text-red-500"
+          onClick={() => upvote(false)}
+        />
+      </div>
+      <Link href={`/post/${post.id}`}>
         <div className="p-3 pb-1">
           <div className="flex items-center space-x-2">
             <Avatar seed={post.username} />
@@ -108,8 +108,8 @@ function Post({ post }: PostProps) {
             </div>
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }
 
