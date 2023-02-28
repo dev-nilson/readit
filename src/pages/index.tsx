@@ -2,6 +2,7 @@ import { Inter } from "@next/font/google";
 import Head from "next/head";
 import PostBox from "@/components/PostBox/PostBox";
 import Feed from "@/components/Feed/Feed";
+import Sidebar from "@/components/Sidebar/Sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,12 +19,7 @@ export default function Home() {
           <PostBox />
           <div className="flex">
             <Feed />
-            <div className="sticky top-36 mx-5 mt-9 h-fit hidden min-w-[300px] rounded-md border border-gray-300 bg-white lg:inline">
-              <p className="uppercase text-xs p-3 font-semibold">Popular Categories</p>
-              <div>
-
-              </div>
-            </div>
+            <Sidebar />
           </div>
         </main>
       </div>
