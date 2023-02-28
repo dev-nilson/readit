@@ -114,3 +114,13 @@ export const GET_VOTES_BY_POST_ID = gql`
     }
   }
 `;
+
+export const GET_SUBPOSTS_WITH_LIMIT = gql`
+  query MyQuery($limit: Int!) {
+    getSubpostsWithLimit(limit: $limit) {
+      id
+      topic
+      created_at
+    }
+  }
+`;

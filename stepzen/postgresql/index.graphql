@@ -157,6 +157,17 @@ type Query {
       """
       configuration: "postgresql_config"
     )
+  getSubpostsWithLimit(limit: Int!): [subposts]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT * FROM "subposts"
+      ORDER BY "created_at" DESC
+      LIMIT $1
+      """
+      configuration: "postgresql_config"
+    )
   subposts(id: ID!): subposts
     @dbquery(
       type: "postgresql"
@@ -230,11 +241,7 @@ type Mutation {
       dml: DELETE
       configuration: "postgresql_config"
     )
-  insertComments(
-    username: String
-    post_id: ID
-    text: String
-  ): comments
+  insertComments(username: String, post_id: ID, text: String): comments
     @dbquery(
       type: "postgresql"
       schema: "public"
@@ -353,11 +360,7 @@ type Mutation {
       dml: DELETE
       configuration: "postgresql_config"
     )
-  insertVotes(
-    username: String
-    post_id: ID
-    upvote: Boolean
-  ): votes
+  insertVotes(username: String, post_id: ID, upvote: Boolean): votes
     @dbquery(
       type: "postgresql"
       schema: "public"
