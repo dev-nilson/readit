@@ -18,7 +18,7 @@ type PostProps = {
 };
 
 function Post({ post }: PostProps) {
-  const [vote, setVote] = useState<boolean>();
+  const [didVote, setDidVote] = useState(false);
   const { data, loading } = useQuery(GET_VOTES_BY_POST_ID, {
     variables: {
       id: post?.id,
@@ -29,8 +29,7 @@ function Post({ post }: PostProps) {
   });
 
   const upvote = async (isUpvote: boolean) => {
-    if (vote && isUpvote) return;
-    if (vote === false && !isUpvote) return;
+    if (didVote) return;
 
     await addVote({
       variables: {
@@ -40,7 +39,7 @@ function Post({ post }: PostProps) {
       },
     });
 
-    setVote(true);
+    setDidVote(true);
   };
 
   const displayVotes = () => {
@@ -52,8 +51,6 @@ function Post({ post }: PostProps) {
 
     return displayNumber;
   };
-
-  console.log(data);
 
   if (!post) {
     return (
