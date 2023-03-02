@@ -48,7 +48,7 @@ function PostBox({ subpost }: PostBoxProps) {
           },
         });
 
-        const newPost = await addPost({
+        await addPost({
           variables: {
             text: data.advice,
             username: "Denilson",
@@ -56,7 +56,7 @@ function PostBox({ subpost }: PostBoxProps) {
           },
         });
       } else {
-        const newPost = await addPost({
+        await addPost({
           variables: {
             text: data.advice,
             username: "Denilson",
@@ -87,6 +87,7 @@ function PostBox({ subpost }: PostBoxProps) {
         <input
           {...register("advice", {
             required: true,
+            maxLength: 280,
             validate: (value) => {
               return !!value.trim();
             },
@@ -102,7 +103,7 @@ function PostBox({ subpost }: PostBoxProps) {
         <span className="text-gray-500">
           <span
             className={
-              watch("advice")?.length > 260 ? "text-red-500" : "text-green-500"
+              watch("advice")?.length > 280 ? "text-red-500" : "text-green-500"
             }
           >
             {watch("advice")?.length}
@@ -130,6 +131,9 @@ function PostBox({ subpost }: PostBoxProps) {
 
           {Object.keys(errors).length > 0 && (
             <div className="text-sm px-2 text-red-500">
+              {errors.advice?.type === "maxLength" && (
+                <p>Advice should not exceed 280 characters</p>
+              )}
               {errors.advice?.type === "validate" && (
                 <p>Advice should be valid</p>
               )}
