@@ -17,7 +17,7 @@ function Sidebar() {
       </p>
       <div>
         {subposts?.map((subpost: Subpost, index: number) => (
-          <Link href={`/subpost/${subpost.topic}`} key={subpost.id}>
+          <Link href={`/subpost/${subpost.topic.trim()}`} key={subpost.id}>
             <div className="flex items-center space-x-2 border-t bg-white px-4 py-2 last:rounded-b">
               <p className="flex-1 truncate text-sm font-semibold">r/{subpost.topic}</p>
             </div>

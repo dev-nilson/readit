@@ -96,7 +96,7 @@ function PostBox({ subpost }: PostBoxProps) {
           type="text"
           placeholder={
             subpost
-              ? `Post a piece of advice for ${subpost}`
+              ? `Post a piece of advice for ${subpost.trim()}`
               : "Post a piece of advice"
           }
         />

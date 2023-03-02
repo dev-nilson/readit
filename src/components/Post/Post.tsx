@@ -77,7 +77,7 @@ function Post({ post }: PostProps) {
         <div className="p-3 pb-1">
           <div className="flex items-center space-x-2">
             <Avatar seed={post.username} />
-            <Link href={`/subpost/${post.subposts[0].topic}`}>
+            <Link href={`/subpost/${post.subposts[0].topic.trim()}`}>
               <span className="cursor-pointer font-semibold text-black hover:text-blue-500 hover:underline">
                 r/{post.subposts[0].topic}
               </span>
