@@ -32,9 +32,11 @@ function Header() {
       </form>
 
       <div className="flex items-center">
-        <button className="rounded-full bg-blue-600 hover:bg-blue-500 px-5 py-1 text-white text-md font-bold">
-          LogIn
-        </button>
+        <Link href="/login">
+          <button className="rounded-full bg-blue-600 hover:bg-blue-500 px-5 py-1 text-white text-md font-bold">
+            Log In
+          </button>
+        </Link>
       </div>
     </div>
   );
