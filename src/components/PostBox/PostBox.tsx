@@ -1,6 +1,8 @@
 import client from "apollo-client";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../../firebase";
 import { useMutation } from "@apollo/client";
 import { ADD_POST, ADD_SUBPOST } from "@/graphql/mutations";
 import { GET_POSTS, GET_SUBPOST_BY_TOPIC } from "@/graphql/queries";
@@ -16,6 +18,7 @@ type PostBoxProps = {
 };
 
 function PostBox({ subpost }: PostBoxProps) {
+  const [user] = useAuthState(auth);
   const [addPost] = useMutation(ADD_POST, {
     refetchQueries: [GET_POSTS, "postsList"],
   });
@@ -51,7 +54,7 @@ function PostBox({ subpost }: PostBoxProps) {
         await addPost({
           variables: {
             text: data.advice,
-            username: "Denilson",
+            username: user?.email,
             subpost_id: newSubpost.data.insertSubpost.id,
           },
         });
@@ -59,7 +62,7 @@ function PostBox({ subpost }: PostBoxProps) {
         await addPost({
           variables: {
             text: data.advice,
-            username: "Denilson",
+            username: user?.email,
             subpost_id: response.data.getSubpostsByTopic[0].id,
           },
         });
@@ -83,7 +86,7 @@ function PostBox({ subpost }: PostBoxProps) {
       onSubmit={onSubmit}
     >
       <div className="flex items-center space-x-3 m-1">
-        <Avatar seed="" />
+        <Avatar seed={user?.email} />
         <input
           {...register("advice", {
             required: true,

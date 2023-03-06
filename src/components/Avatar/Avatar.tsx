@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 type AvatarProps = {
-  seed?: string;
+  seed?: string | null;
   large?: boolean;
 };
 
@@ -13,7 +13,7 @@ function Avatar({ seed, large }: AvatarProps) {
       }`}
     >
       <Image
-        src={`https://api.dicebear.com/5.x/pixel-art/png?seed=${seed}`}
+        src={`https://api.dicebear.com/5.x/open-peeps/png?seed=${seed}`}
         fill={true}
         alt=""
       />

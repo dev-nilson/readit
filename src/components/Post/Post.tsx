@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TimeAgo from "react-timeago";
 import Link from "next/link";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../../firebase";
 import { Orbit } from "@uiball/loaders";
 import { ArrowUpIcon, ArrowDownIcon } from "@heroicons/react/24/solid";
 import {
@@ -18,6 +20,7 @@ type PostProps = {
 };
 
 function Post({ post }: PostProps) {
+  const [user] = useAuthState(auth);
   const [didVote, setDidVote] = useState(false);
   const { data, loading } = useQuery(GET_VOTES_BY_POST_ID, {
     variables: {
@@ -34,7 +37,7 @@ function Post({ post }: PostProps) {
     await addVote({
       variables: {
         post_id: post.id,
-        username: "Denilson",
+        username: user?.email,
         upvote: isUpvote,
       },
     });

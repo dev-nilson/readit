@@ -1,3 +1,5 @@
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../../firebase";
 import Avatar from "@/components/Avatar/Avatar";
 import Post from "@/components/Post/Post";
 import { ADD_COMMENT } from "@/graphql/mutations";
@@ -13,6 +15,7 @@ type FormData = {
 };
 
 function PostPage() {
+  const [user, setUser] = useAuthState(auth);
   const router = useRouter();
   const {
     register,
@@ -38,7 +41,7 @@ function PostPage() {
     await addComment({
       variables: {
         post_id: router.query.postId,
-        username: "Denilson",
+        username: user?.email,
         text: data.comment,
       },
     });
@@ -57,7 +60,7 @@ function PostPage() {
       {post && (
         <>
           <div className="-mt-5 rounded-b-md border border-t-0 border-gray-300 bg-white p-5 pl-16">
-            <p className="text-sm">Comment as Denilson</p>
+            <p className="text-sm">Comment as {user?.email}</p>
             <form
               className="flex flex-col max-w-5xl space-y-3"
               onSubmit={handleSubmit(onSubmit)}
@@ -89,7 +92,7 @@ function PostPage() {
               >
                 <hr className="absolute top-10 h-14 left-7 z-0 border" />
                 <div className="z-50">
-                  <Avatar />
+                  <Avatar seed={user?.email} />
                 </div>
                 <div className="flex flex-col">
                   <p className="py-2 text-xs text-gray-400">
