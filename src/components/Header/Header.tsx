@@ -3,8 +3,7 @@ import Link from "next/link";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../../firebase";
 import logo from "@/assets/logo.png";
-import { HomeIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import Avatar from "../Avatar/Avatar";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
 function Header() {
   const [user] = useAuthState(auth);
@@ -22,11 +21,6 @@ function Header() {
         </Link>
       </div>
 
-      <div className="flex items-center mx-7">
-        <HomeIcon className="h-5 w-5" />
-        <p className="flex-1 ml-2 hidden md:inline">Home</p>
-      </div>
-
       <form className="flex-1 items-center space-x-2 rounded-full border border-gray-200 bg-gray-100 px-3 py-1 max-w-2xl hidden sm:flex">
         <MagnifyingGlassIcon className="h-6 w-6 text-gray-400" />
         <input
@@ -38,7 +32,12 @@ function Header() {
 
       <div className="flex items-center">
         {user ? (
-          <Avatar seed={user.email} />
+          <button
+            className="rounded-full bg-blue-600 hover:bg-blue-500 px-5 py-1 text-white text-md font-bold"
+            onClick={() => auth.signOut()}
+          >
+            Log Out
+          </button>
         ) : (
           <Link href="/login">
             <button className="rounded-full bg-blue-600 hover:bg-blue-500 px-5 py-1 text-white text-md font-bold">
