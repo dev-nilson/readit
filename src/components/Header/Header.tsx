@@ -1,11 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../../firebase";
 import logo from "@/assets/logo.png";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
 function Header() {
+  const { pathname } = useRouter();
   const [user] = useAuthState(auth);
 
   return (
@@ -31,14 +33,15 @@ function Header() {
       </form>
 
       <div className="flex items-center">
-        {user ? (
+        {user && (
           <button
             className="rounded-full bg-blue-600 hover:bg-blue-500 px-5 py-1 text-white text-md font-bold"
             onClick={() => auth.signOut()}
           >
             Log Out
           </button>
-        ) : (
+        )}
+        {!user && pathname !== "/login" && (
           <Link href="/login">
             <button className="rounded-full bg-blue-600 hover:bg-blue-500 px-5 py-1 text-white text-md font-bold">
               Log In

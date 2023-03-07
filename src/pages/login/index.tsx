@@ -1,15 +1,21 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../../firebase";
 import logo from "@/assets/logo.png";
 import google from "@/assets/google.png";
 
 function Login() {
+  const [user] = useAuthState(auth);
+  const router = useRouter();
   const googleAuth = new GoogleAuthProvider();
 
   const login = async () => {
-    const result = await signInWithPopup(auth, googleAuth);
+    await signInWithPopup(auth, googleAuth);
   };
+
+  if (user) router.push("/");
 
   return (
     <div className="bg-white h-full flex flex-col items-center gap-10 justify-start text-gray-700">
