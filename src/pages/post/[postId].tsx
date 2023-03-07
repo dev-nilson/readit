@@ -60,29 +60,37 @@ function PostPage() {
       {post && (
         <>
           <div className="-mt-5 rounded-b-md border border-t-0 border-gray-300 bg-white p-5 pl-16">
-            <p className="text-sm">Comment as {user?.email}</p>
             <form
               className="flex flex-col max-w-5xl space-y-3"
               onSubmit={handleSubmit(onSubmit)}
             >
-              <textarea
-                {...register("comment", {
-                  maxLength: 280,
-                  validate: (value) => {
-                    return !!value.trim();
-                  },
-                })}
-                className="h-24 rounded-md border border-gray-200 p-2 pl-4 outline-none disabled:bg-gray-50"
-                placeholder="Add a comment"
-              />
-              <button
-                type="submit"
-                className="rounded-full bg-orange-600 px-3 py-2 font-semibold text-white disabled:bg-gray-200"
-              >
-                Comment
-              </button>
+              {user ? (
+                <>
+                  <textarea
+                    {...register("comment", {
+                      maxLength: 280,
+                      validate: (value) => {
+                        return !!value.trim();
+                      },
+                    })}
+                    className="h-24 rounded-md border border-gray-200 p-2 pl-4 outline-none disabled:bg-gray-50"
+                    placeholder="Add a comment"
+                  />
+                  <button
+                    type="submit"
+                    className="rounded-full bg-orange-600 px-3 py-2 font-semibold text-white disabled:bg-gray-200"
+                  >
+                    Comment
+                  </button>
+                </>
+              ) : (
+                <div className="h-11 rounded-md border border-gray-200 p-2 pl-4 outline-none disabled:bg-gray-50">
+                  <h1 className="text-gray-500">You must login to comment</h1>
+                </div>
+              )}
             </form>
           </div>
+
           <div className="-my-5 rounded-b-md border border-t-0 border-gray-300 bg-white py-5 px-10 mb-5">
             <hr className="py-2" />
             {post?.comments.map((comment) => (

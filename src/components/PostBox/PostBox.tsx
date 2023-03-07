@@ -86,33 +86,41 @@ function PostBox({ subpost }: PostBoxProps) {
       onSubmit={onSubmit}
     >
       <div className="flex items-center space-x-3 m-1">
-        <Avatar seed={user?.email} />
-        <input
-          {...register("advice", {
-            required: true,
-            maxLength: 280,
-            validate: (value) => {
-              return !!value.trim();
-            },
-          })}
-          className="bg-gray-50 p-2 pl-5 outline-none rounded-md flex-1"
-          type="text"
-          placeholder={
-            subpost
-              ? `Post a piece of advice for ${subpost.trim()}`
-              : "Post a piece of advice"
-          }
-        />
-        <span className="text-gray-500">
-          <span
-            className={
-              watch("advice")?.length > 280 ? "text-red-500" : "text-green-500"
-            }
-          >
-            {watch("advice")?.length}
-          </span>{" "}
-          / 280
-        </span>
+        {user ? (
+          <>
+            <Avatar seed={user?.email} />
+            <input
+              {...register("advice", {
+                required: true,
+                maxLength: 280,
+                validate: (value) => {
+                  return !!value.trim();
+                },
+              })}
+              className="bg-gray-50 p-2 pl-5 outline-none rounded-md flex-1"
+              type="text"
+              placeholder={
+                subpost
+                  ? `Post a piece of advice for ${subpost.trim()}`
+                  : "Post a piece of advice"
+              }
+            />
+            <span className="text-gray-500">
+              <span
+                className={
+                  watch("advice")?.length > 280
+                    ? "text-red-500"
+                    : "text-green-500"
+                }
+              >
+                {watch("advice")?.length}
+              </span>{" "}
+              / 280
+            </span>
+          </>
+        ) : (
+          <h1 className="text-gray-500">You must login to post</h1>
+        )}
       </div>
 
       {!!watch("advice") && !subpost && (

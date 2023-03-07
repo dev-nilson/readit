@@ -37,7 +37,7 @@ function Post({ post }: PostProps) {
     await addVote({
       variables: {
         post_id: post.id,
-        username: user?.email,
+        username: user?.email || "",
         upvote: isUpvote,
       },
     });
