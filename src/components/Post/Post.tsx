@@ -90,7 +90,7 @@ function Post({ post }: PostProps) {
               • Posted by {post.username} <TimeAgo date={post.created_at} />
             </span>
           </div>
-          <div className="py-4">
+          <div className="py-4 break-all">
             <p className="mt-2 text-md">{post.text}</p>
           </div>
           <div className="flex space-x-4 text-gray-400">

@@ -76,6 +76,16 @@ function PostPage() {
                     className="h-24 rounded-md border border-gray-200 p-2 pl-4 outline-none disabled:bg-gray-50"
                     placeholder="Add a comment"
                   />
+                  {Object.keys(errors).length > 0 && (
+                    <div className="text-sm px-2 text-red-500">
+                      {errors.comment?.type === "maxLength" && (
+                        <p>Comment should not exceed 280 characters</p>
+                      )}
+                      {errors.comment?.type === "validate" && (
+                        <p>Comment should be valid</p>
+                      )}
+                    </div>
+                  )}
                   <button
                     type="submit"
                     className="rounded-full bg-orange-600 px-3 py-2 font-semibold text-white disabled:bg-gray-200"
@@ -102,7 +112,7 @@ function PostPage() {
                 <div className="z-50">
                   <Avatar seed={user?.email} />
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col break-all">
                   <p className="py-2 text-xs text-gray-400">
                     <span className="font-semibold text-gray-600">
                       {comment.username}
