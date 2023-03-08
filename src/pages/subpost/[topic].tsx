@@ -1,6 +1,5 @@
-import Avatar from "@/components/Avatar/Avatar";
 import Feed from "@/components/Feed/Feed";
-import Header from "@/components/Header/Header";
+import Icon from "@/components/Icon/Icon";
 import PostBox from "@/components/PostBox/PostBox";
 import { useRouter } from "next/router";
 
@@ -14,7 +13,7 @@ function Subpost() {
         <div className="-mx-8 mt-10 bg-white">
           <div className="mx-auto flex max-w-5xl items-center space-x-4 pb-3">
             <div className="-mt-7">
-              <Avatar large />
+              <Icon seed={subpost} large />
             </div>
             <div className="py-2">
               <h1 className="text-2xl font-bold">Advice for {subpost}</h1>
